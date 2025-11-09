@@ -1,0 +1,99 @@
+The script is also saved with the scene.  
+The list of scripts will appear in the inspector.
+
+Example player script:
+GameScript  # This is a required keyword in GayScript that defines the script as a game script, not an engine script.
+Working Hierarchy.Player  # Finds the player in the hierarchy and interacts with it in code. “Working” means we’re searching by path.
+{  # Block with actions
+# This is a comment
+Player.Speed = 10  # Goes to Player, selects Speed, and sets the speed value to 10
+Player.JumpForce = 10  # Goes to Player, selects JumpForce, and sets the jump force to 10
+}  # End of actions (and the end of the script)
+
+Such scripts only work inside the engine and ONLY in Play Mode.
+Below you can find GayScript syntax and commands for other objects.
+
+For blocks:
+GameScript
+Working Hierarchy.Green_Cube
+{
+Block.Scale = 1, 1, 1
+Block.Position = 0, 5, 0
+Block.Rotation = 0, 45, 0
+Block.Color = 0, 255, 0
+}
+
+For individual inspector fields (like in Unity — fields you can edit directly in the engine, shown here with a player example):
+GameScript
+Working Hierarchy.Player
+{
+line "Player Speed"  # A label that appears in the inspector before the Speed field
+line.ask Player.Speed  # The editor checks what is entered in the inspector field and applies that number to Player.Speed
+Player.Speed = [line]  # Takes the value from the line field and assigns it to Player.Speed
+}
+
+Example with blocks:
+GameScript
+Working Hierarchy.Green_Cube
+{
+# line is a field in the inspector
+line "Block Scale"
+line "Block Rotation"
+# line.ask makes the editor check the values from the fields
+line.ask Block.Scale  # The editor checks what is entered in the inspector and applies it to Block.Scale
+line.ask Block.Rotation  # Same but for Block.Rotation
+# After the editor checks the values, we assign them
+Block.Scale = [line]  # Takes the value from the line and assigns it to Block.Scale
+Block.Rotation = [line]  # Takes the value from the line and assigns it to Block.Rotation
+}
+
+GameScript
+Working Hierarchy.Green_Cube
+{
+line "Block Color"
+line.ask Block.Color
+Block.Color = [line]
+
+line "Block Position"
+line.ask Block.Position
+Block.Position = [line]
+}
+
+Example with camera rotation speed:
+GameScript
+Working Hierarchy.Player
+{
+line "Camera Rotation Speed"  # Label shown in the inspector before CameraRotationSpeed
+line.ask Player.CameraRotationSpeed  # Editor checks the value from the field and applies it to the camera rotation speed
+Player.SpinSpeed = [line]  # Assigns the value from the line field to camera spin speed
+}
+
+Example with if/else:
+GameScript
+# Added support for multiple "Working" objects
+Working Hierarchy.Player  # Using the Player
+Working Hierarchy.Green_Cube  # Using the green cube
+{
+# Added "using" to mark which objects are used
+using Player:  # Declares that Player is being used
+using Green_Cube:  # Declares that Green_Cube is being used
+Block.Color = 255, 255, 255  # Default block color = white
+if Player.Colision == Green_Cube  # If the player collides with the green cube
+    Block.Color = 255, 0, 0  # The block turns red
+else  # Otherwise
+    Block.Color = 255, 255, 255  # The block stays white
+}
+
+Example disabling collision:
+GameScript
+Working Hierarchy.Green_Cube
+{
+Block.Colision = false  # Disables collision on the block
+}
+
+Example disabling player collision:
+GameScript
+Working Hierarchy.Player
+{
+Player.Colision = false  # Disables player collision, causing the player to fall endlessly (pretty useless)
+}
